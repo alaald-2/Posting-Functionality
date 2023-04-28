@@ -82,7 +82,7 @@ public class Main {
 
         // Set the status message to be posted
         try {
-            // Find the status update box "What's on your mind"
+            // Find the status update box "What's on your mind" "we choose that to learn more ways"
             WebElement statusUpdateBox = driver.findElement(By.xpath("//span[contains(text(), \"What's on your mind\")]"));
             statusUpdateBox.click();
             // Wait for the input field to be visible
@@ -90,17 +90,28 @@ public class Main {
             // Enter the status message into the input field
             WebElement statusUpdateInput = driver.findElement(By.cssSelector("div[role='dialog'] div[contenteditable='true']"));
             statusUpdateInput.sendKeys(statusMessage);
-        // Find and click the 'Post' button to post the status update
+            // Find and click the 'Post' button to post the status update
             driver.findElement(By.xpath("//span[text()='Post']")).click();
+            // Wait
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // Navigate to the user's profile page
+            driver.navigate().to("https://www.facebook.com/profile.php");
+
+             // Wait for the post element to be displayed
+            WebElement postElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div.x9f619")));
+             // Verify the post content
+            if (postElement.getText().contains(statusMessage)) {
+                System.out.println("Post successfully published and displayed.");
+            } else {
+                System.out.println("Error: Post not displayed.");
+            }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }
-
-        // Wait
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
 
         try {
