@@ -72,8 +72,10 @@ public class Main {
         String expectedUrl = "https://www.facebook.com/";
         String actualUrl = driver.getCurrentUrl();
         if (actualUrl.contains(expectedUrl)) {
+            logger.debug("login successful.");
             System.out.println("User is successfully logged in and redirected to their profile page.");
         } else {
+            logger.error("Login failed. User is not redirected to their profile page. Expected URL: {}, Actual URL: {}", expectedUrl, actualUrl);
             System.out.println("Login failed. User is not redirected to their profile page.");
         }
 
@@ -106,8 +108,10 @@ public class Main {
             WebElement postElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div.x9f619")));
              // Verify the post content
             if (postElement.getText().contains(statusMessage)) {
+                logger.debug("Post successfully published.");
                 System.out.println("Post successfully published and displayed.");
             } else {
+                logger.error("Post not displayed " + statusMessage);
                 System.out.println("Error: Post not displayed.");
             }
         } catch (Exception e) {
